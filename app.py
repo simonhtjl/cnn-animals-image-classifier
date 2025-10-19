@@ -106,8 +106,8 @@ default_model_path = "model/cnn_model.h5"
 model_path = st.sidebar.text_input("Model file path (.h5)", value=default_model_path)
 uploaded_model = st.sidebar.file_uploader("Atau upload model (.h5)", type=["h5"])
 
-class_map_path = st.sidebar.text_input("class_indices.json path (opsional)", value="class_indices.json")
-uploaded_class_map = st.sidebar.file_uploader("Upload class_indices.json (opsional)", type=["json"])
+# class_map_path = st.sidebar.text_input("class_indices.json path (opsional)", value="class_indices.json")
+# uploaded_class_map = st.sidebar.file_uploader("Upload class_indices.json (opsional)", type=["json"])
 
 top_k = st.sidebar.slider("Top K predictions", min_value=1, max_value=10, value=3)
 
@@ -302,6 +302,7 @@ st.markdown(""" Anggota Kelompok 6:
 - Najdi Fadhlur Rahman — 2802519625
 - Simon Mangasi Hutajulu — 2802647373
 - Sujud Hosis Sudarja — 2802633172 """)
+
 
 
 
