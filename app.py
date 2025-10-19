@@ -111,10 +111,10 @@ uploaded_class_map = st.sidebar.file_uploader("Upload class_indices.json (opsion
 
 top_k = st.sidebar.slider("Top K predictions", min_value=1, max_value=10, value=3)
 
-st.sidebar.markdown("---")
-st.sidebar.markdown("Batch prediction")
-zip_upload = st.sidebar.file_uploader("Upload ZIP file berisi gambar (opsional)", type=["zip"])
-batch_confidence_threshold = st.sidebar.slider("Confidence threshold (for 'uncertain')", 0.0, 1.0, 0.5)
+# st.sidebar.markdown("---")
+# st.sidebar.markdown("Batch prediction")
+# zip_upload = st.sidebar.file_uploader("Upload ZIP file berisi gambar (opsional)", type=["zip"])
+# batch_confidence_threshold = st.sidebar.slider("Confidence threshold (for 'uncertain')", 0.0, 1.0, 0.5)
 
 # Model loading area
 model = None
@@ -302,6 +302,7 @@ st.markdown(""" Anggota Kelompok 6:
 - Najdi Fadhlur Rahman — 2802519625
 - Simon Mangasi Hutajulu — 2802647373
 - Sujud Hosis Sudarja — 2802633172 """)
+
 
 
 
