@@ -30,12 +30,33 @@ def load_class_mapping(path):
 
 def get_model_input_shape(model):
     """Get the expected input shape from the model automatically"""
-    if hasattr(model, 'layers') and len(model.layers) > 0:
-        first_layer = model.layers[0]
-        if hasattr(first_layer, 'input_shape'):
-            input_shape = first_layer.input_shape
-            if input_shape and len(input_shape) == 4:  # (batch, height, width, channels)
-                return (input_shape[1], input_shape[2])  # return (height, width)
+    try:
+        if hasattr(model, 'layers') and len(model.layers) > 0:
+            first_layer = model.layers[0]
+            
+            # Cara 1: Cek input_shape langsung
+            if hasattr(first_layer, 'input_shape') and first_layer.input_shape is not None:
+                input_shape = first_layer.input_shape
+                if input_shape and len(input_shape) == 4:  # (batch, height, width, channels)
+                    return (input_shape[1], input_shape[2])  # return (height, width)
+            
+            # Cara 2: Cek melalui config
+            if hasattr(first_layer, 'get_config'):
+                config = first_layer.get_config()
+                if 'batch_input_shape' in config:
+                    input_shape = config['batch_input_shape']
+                    if input_shape and len(input_shape) == 4:
+                        return (input_shape[1], input_shape[2])
+            
+            # Cara 3: Cek melalui model input
+            if hasattr(model, 'input_shape') and model.input_shape is not None:
+                input_shape = model.input_shape
+                if input_shape and len(input_shape) == 4:
+                    return (input_shape[1], input_shape[2])
+                    
+    except Exception as e:
+        print(f"Error detecting input shape: {e}")
+    
     return None
 
 def preprocess_image(img: Image.Image, target_size):
@@ -76,8 +97,6 @@ st.markdown(
     Aplikasi ini menerima gambar hewan dan menampilkan prediksi dari model CNN (Keras). 
     Fitur: upload model .h5, upload gambar tunggal, prediksi batch dari zip folder gambar (.zip), 
     serta mendownload hasil prediksi.
-    
-    Now supports any image size! The app will automatically resize your images to match the model's requirements.
     """
 )
 
@@ -151,9 +170,49 @@ else:
 
 # Display model input shape info
 if model_loaded and model_input_shape:
-    st.sidebar.info(f"Model expects: {model_input_shape[0]}x{model_input_shape[1]} pixels")
+    st.sidebar.success(f"Model expects: {model_input_shape[0]}x{model_input_shape[1]} pixels")
 elif model_loaded:
-    st.sidebar.warning("Could not detect model input shape automatically")
+    st.sidebar.warning("Could not auto-detect input shape automatically")
+    
+    # Fallback: Manual detection from model summary
+    try:
+        # Get model summary as text
+        summary_lines = []
+        model.summary(print_fn=lambda x: summary_lines.append(x))
+        summary_text = "\n".join(summary_lines)
+        
+        # Look for input shape patterns in summary
+        for line in summary_lines:
+            if 'Input shape:' in line:
+                # Extract shape from line like "Input shape: (None, 224, 224, 3)"
+                import re
+                shape_match = re.search(r'\(None, (\d+), (\d+), \d+\)', line)
+                if shape_match:
+                    height, width = int(shape_match.group(1)), int(shape_match.group(2))
+                    model_input_shape = (height, width)
+                    st.sidebar.success(f"Detected input shape: {height}x{width} (from summary)")
+                    break
+            elif 'conv2d input:' in line.lower():
+                # Extract from conv layer line
+                import re
+                shape_match = re.search(r'\(None, (\d+), (\d+), \d+\)', line)
+                if shape_match:
+                    height, width = int(shape_match.group(1)), int(shape_match.group(2))
+                    model_input_shape = (height, width)
+                    st.sidebar.success(f"Detected input shape: {height}x{width} (from conv layer)")
+                    break
+        
+        # If still not detected, use common sizes based on your training
+        if not model_input_shape:
+            # Since you trained with 224x224, force this size
+            model_input_shape = (224, 224)
+            st.sidebar.info("Using default input shape: 224x224 (from training)")
+            
+    except Exception as e:
+        st.sidebar.error(f"Error in manual detection: {e}")
+        # Ultimate fallback
+        model_input_shape = (224, 224)
+        st.sidebar.info("Forced input shape to 224x224")
 
 # Main interactive area
 col1, col2 = st.columns([1,1])
