@@ -170,7 +170,7 @@ else:
 
 # Display model input shape info
 if model_loaded and model_input_shape:
-    # st.sidebar.success(f"Model expects: {model_input_shape[0]}x{model_input_shape[1]} pixels")
+    st.sidebar.success(f"Model expects: {model_input_shape[0]}x{model_input_shape[1]} pixels")
 elif model_loaded:
     st.sidebar.warning("Could not auto-detect input shape automatically")
     
@@ -302,6 +302,7 @@ st.markdown(""" Anggota Kelompok 6:
 - Najdi Fadhlur Rahman — 2802519625
 - Simon Mangasi Hutajulu — 2802647373
 - Sujud Hosis Sudarja — 2802633172 """)
+
 
 
 
