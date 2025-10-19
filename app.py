@@ -95,8 +95,7 @@ st.title("CNN Animals Image Classifier App")
 st.markdown(
     """
     Aplikasi ini menerima gambar hewan dan menampilkan prediksi dari model CNN (Keras). 
-    Fitur: upload model .h5, upload gambar tunggal, prediksi batch dari zip folder gambar (.zip), 
-    serta mendownload hasil prediksi.
+    Fitur: upload model .h5, upload gambar, serta mendownload hasil prediksi.
     """
 )
 
@@ -302,6 +301,7 @@ st.markdown(""" Anggota Kelompok 6:
 - Najdi Fadhlur Rahman — 2802519625
 - Simon Mangasi Hutajulu — 2802647373
 - Sujud Hosis Sudarja — 2802633172 """)
+
 
 
 
