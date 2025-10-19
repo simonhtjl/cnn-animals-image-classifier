@@ -91,7 +91,7 @@ def draw_bar_chart(labels, probs):
 def save_batch_results(df, filename="predictions.csv"):
     return df.to_csv(index=False).encode('utf-8')
 
-st.title("CNN Animals Image Classifier — Streamlit App")
+st.title("CNN Animals Image Classifier App")
 st.markdown(
     """
     Aplikasi ini menerima gambar hewan dan menampilkan prediksi dari model CNN (Keras). 
@@ -394,3 +394,4 @@ st.markdown(""" Anggota Kelompok 6:
 - Najdi Fadhlur Rahman — 2802519625
 - Simon Mangasi Hutajulu — 2802647373
 - Sujud Hosis Sudarja — 2802633172 """)
+
