@@ -151,22 +151,22 @@ else:
     else:
         st.sidebar.info("Model file not found at path. Upload a .h5 model or place cnn_model.h5 in project folder.")
 
-# Load class mapping if provided
-if uploaded_class_map is not None:
-    try:
-        tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
-        tmp.write(uploaded_class_map.read())
-        tmp.flush()
-        class_mapping = load_class_mapping(tmp.name)
-        if class_mapping:
-            st.sidebar.success("Loaded class mapping from uploaded JSON.")
-    except Exception as e:
-        st.sidebar.error(f"Failed to load uploaded class mapping: {e}")
-else:
-    if os.path.exists(class_map_path):
-        class_mapping = load_class_mapping(class_map_path)
-        if class_mapping:
-            st.sidebar.success(f"Loaded class mapping from {class_map_path}")
+# # Load class mapping if provided
+# if uploaded_class_map is not None:
+#     try:
+#         tmp = tempfile.NamedTemporaryFile(delete=False, suffix=".json")
+#         tmp.write(uploaded_class_map.read())
+#         tmp.flush()
+#         class_mapping = load_class_mapping(tmp.name)
+#         if class_mapping:
+#             st.sidebar.success("Loaded class mapping from uploaded JSON.")
+#     except Exception as e:
+#         st.sidebar.error(f"Failed to load uploaded class mapping: {e}")
+# else:
+#     if os.path.exists(class_map_path):
+#         class_mapping = load_class_mapping(class_map_path)
+#         if class_mapping:
+#             st.sidebar.success(f"Loaded class mapping from {class_map_path}")
 
 # Display model input shape info
 if model_loaded and model_input_shape:
@@ -302,6 +302,7 @@ st.markdown(""" Anggota Kelompok 6:
 - Najdi Fadhlur Rahman — 2802519625
 - Simon Mangasi Hutajulu — 2802647373
 - Sujud Hosis Sudarja — 2802633172 """)
+
 
 
 
